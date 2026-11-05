@@ -1,11 +1,10 @@
 {
-  "name": "burmaldens-portable",
+  "name": "burmaldens",
   "version": "2.0.0",
-  "description": "БУРМАЛДЭНС — сайт компании",
+  "description": "BURMALDENS site",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "init-db": "node init-db.js"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">=18"
