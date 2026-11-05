@@ -343,6 +343,33 @@ async function loadOperations() {
   } catch (e) { console.error(e); }
 }
 
+async function depositBalance() {
+  const user = getUser();
+  if (!user) return;
+  const amount = Number(document.getElementById('deposit-amount').value);
+  if (!amount || amount <= 0) {
+    alert('Введите сумму больше 0');
+    return;
+  }
+  try {
+    const data = await api('/api/deposit', {
+      method: 'POST',
+      body: JSON.stringify({
+        representative_id: user.id,
+        amount,
+        description: 'Пополнение счёта (демо)'
+      })
+    });
+    user.balance = data.new_balance;
+    setUser(user);
+    updateUserUI(user);
+    await loadOperations();
+    alert('Счёт пополнен на ' + amount.toLocaleString('ru-RU') + ' ₽\nНовый баланс: ' + Number(data.new_balance).toLocaleString('ru-RU') + ' ₽');
+  } catch (ex) {
+    alert(ex.message);
+  }
+}
+
 async function saveProfile(e) {
   e.preventDefault();
   const user = getUser();
