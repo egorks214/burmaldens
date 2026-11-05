@@ -9,7 +9,10 @@ const { URL } = require('url');
 const { load, save, nextId } = require('./db');
 
 const PORT = process.env.PORT || 3000;
-const PUBLIC = path.join(__dirname, 'public');
+// Сначала ищем index.html в корне (как на твоём GitHub), иначе в public/
+const PUBLIC = fs.existsSync(path.join(__dirname, 'index.html'))
+  ? __dirname
+  : path.join(__dirname, 'public');
 
 function simpleHash(password) {
   return Buffer.from(String(password)).toString('base64');
