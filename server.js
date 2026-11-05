@@ -272,6 +272,101 @@ async function handleAPI(req, res, pathname) {
     return sendJSON(res, 200, ops);
   }
 
+  // GET /api/debug/db — содержимое базы для демонстрации
+  if (method === 'GET' && pathname === '/api/debug/db') {
+    const data = load();
+    return sendJSON(res, 200, data);
+  }
+
+  // GET /api/debug/db-view — удобная HTML-страница просмотра БД
+  if (method === 'GET' && pathname === '/api/debug/db-view') {
+    const data = load();
+    const html = `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>База данных — БУРМАЛДЭНС</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background:#f7f6fb; margin:0; padding:24px; color:#1e1520; }
+    h1 { color:#261B2C; margin:0 0 8px; }
+    .sub { color:#5a5460; margin-bottom:20px; }
+    .card { background:#fff; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,.08); padding:16px 20px; margin-bottom:16px; }
+    h2 { font-size:1.1rem; color:#6661FB; margin:0 0 12px; }
+    table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid #e8e6f0; vertical-align:top; }
+    th { background:#f7f6fb; color:#261B2C; }
+    .btn { display:inline-block; margin:0 8px 16px 0; padding:10px 16px; background:#6661FB; color:#fff; text-decoration:none; border-radius:8px; border:none; cursor:pointer; font-size:0.95rem; }
+    .btn:hover { background:#5550e0; }
+    .btn-gray { background:#586790; }
+    pre { background:#1e1520; color:#edd648; padding:12px; border-radius:8px; overflow:auto; font-size:0.8rem; max-height:320px; }
+    .n { font-weight:700; color:#261B2C; }
+  </style>
+</head>
+<body>
+  <h1>База данных сервера</h1>
+  <p class="sub">Файл <b>data/db.json</b> на Render. Обновите страницу после заказа или регистрации — данные изменятся.</p>
+  <button class="btn" onclick="location.reload()">Обновить</button>
+  <a class="btn btn-gray" href="/api/debug/db" target="_blank">Открыть сырой JSON</a>
+  <a class="btn btn-gray" href="/">На сайт</a>
+
+  <div class="card">
+    <h2>Representatives (представители) — ${data.representatives.length}</h2>
+    <table>
+      <tr><th>ID</th><th>Номер</th><th>ФИО</th><th>Город</th><th>Баланс</th></tr>
+      ${data.representatives.map(r => `<tr>
+        <td>${r.id}</td><td>${r.computer_number}</td><td>${r.full_name}</td>
+        <td>${r.city || ''}</td><td class="n">${Number(r.balance).toLocaleString('ru-RU')} ₽</td>
+      </tr>`).join('') || '<tr><td colspan="5">Пусто</td></tr>'}
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Orders (заказы) — ${data.orders.length}</h2>
+    <table>
+      <tr><th>Номер</th><th>ID предст.</th><th>Сумма</th><th>Статус</th><th>Дата</th></tr>
+      ${data.orders.map(o => `<tr>
+        <td>${o.order_number}</td><td>${o.representative_id}</td>
+        <td class="n">${Number(o.total_amount).toLocaleString('ru-RU')} ₽</td>
+        <td>${o.status}</td><td>${o.created_at}</td>
+      </tr>`).join('') || '<tr><td colspan="5">Пусто</td></tr>'}
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Account operations (операции) — ${data.account_operations.length}</h2>
+    <table>
+      <tr><th>Дата</th><th>Тип</th><th>Сумма</th><th>Описание</th><th>ID предст.</th></tr>
+      ${data.account_operations.map(o => `<tr>
+        <td>${o.created_at}</td><td>${o.type}</td>
+        <td class="n">${Number(o.amount).toLocaleString('ru-RU')} ₽</td>
+        <td>${o.description || ''}</td><td>${o.representative_id}</td>
+      </tr>`).join('') || '<tr><td colspan="5">Пусто</td></tr>'}
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Products (товары) — ${data.products.length}</h2>
+    <table>
+      <tr><th>ID</th><th>Название</th><th>Цена</th><th>Остаток</th></tr>
+      ${data.products.map(p => `<tr>
+        <td>${p.id}</td><td>${p.name}</td>
+        <td>${Number(p.price).toLocaleString('ru-RU')} ₽</td>
+        <td>${p.stock}</td>
+      </tr>`).join('')}
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Полный JSON</h2>
+    <pre>${JSON.stringify(data, null, 2).replace(/</g, '&lt;')}</pre>
+  </div>
+</body>
+</html>`;
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    return res.end(html);
+  }
+
   sendJSON(res, 404, { error: 'API not found' });
 }
 
