@@ -153,6 +153,16 @@ function switchSection(id) {
   };
   const h = document.getElementById('cabinet-title');
   if (h) h.textContent = titles[id] || 'Кабинет';
+
+  if (id === 'balance') {
+    ensureDepositUI();
+    const u = getUser();
+    if (u) {
+      const el = document.getElementById('bal-amount-2');
+      if (el) el.textContent = Number(u.balance).toLocaleString('ru-RU') + ' ₽';
+      loadOperations();
+    }
+  }
 }
 
 async function initCabinet() {
@@ -181,6 +191,7 @@ async function initCabinet() {
 
   await loadOrderHistory();
   await loadOperations();
+  ensureDepositUI();
 
   switchSection('home');
 }
@@ -341,6 +352,28 @@ async function loadOperations() {
       </tr>
     `).join('');
   } catch (e) { console.error(e); }
+}
+
+
+function ensureDepositUI() {
+  if (document.getElementById('deposit-amount')) return;
+  const panel = document.getElementById('sec-balance');
+  if (!panel) return;
+  const historyTitle = panel.querySelector('.section-subtitle');
+  const box = document.createElement('div');
+  box.id = 'deposit-box';
+  box.style.cssText = 'background:var(--white);padding:24px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:28px;max-width:480px';
+  box.innerHTML = `
+    <h3 style="color:var(--plum);margin-bottom:8px">Пополнить счёт</h3>
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:16px">Демо-пополнение (реальные платежи не списываются)</p>
+    <div class="form-group">
+      <label for="deposit-amount">Сумма, ₽</label>
+      <input type="number" id="deposit-amount" min="1" max="1000000" step="100" value="5000" placeholder="5000">
+    </div>
+    <button type="button" class="btn btn-gold" onclick="depositBalance()">Пополнить</button>
+  `;
+  if (historyTitle) panel.insertBefore(box, historyTitle);
+  else panel.appendChild(box);
 }
 
 async function depositBalance() {
