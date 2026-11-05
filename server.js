@@ -272,6 +272,36 @@ async function handleAPI(req, res, pathname) {
     return sendJSON(res, 200, ops);
   }
 
+  // POST /api/deposit — пополнение баланса (демо)
+  if (method === 'POST' && pathname === '/api/deposit') {
+    const body = await readBody(req);
+    const representative_id = Number(body.representative_id);
+    const amount = Number(body.amount);
+    if (!representative_id || !amount || amount <= 0) {
+      return sendJSON(res, 400, { error: 'Укажите сумму больше 0' });
+    }
+    if (amount > 1000000) {
+      return sendJSON(res, 400, { error: 'Слишком большая сумма (макс. 1 000 000 ₽)' });
+    }
+    const data = load();
+    const rep = data.representatives.find(r => r.id === representative_id && r.is_active);
+    if (!rep) return sendJSON(res, 404, { error: 'Представитель не найден' });
+
+    rep.balance = Number(rep.balance) + amount;
+    data.account_operations.push({
+      id: nextId(data, 'account_operations'),
+      representative_id,
+      order_id: null,
+      type: 'deposit',
+      amount,
+      description: body.description || 'Пополнение счёта (демо)',
+      created_at: new Date().toISOString().slice(0, 10)
+    });
+    save(data);
+    const { password_hash, ...safe } = rep;
+    return sendJSON(res, 200, { success: true, user: safe, new_balance: rep.balance });
+  }
+
   // GET /api/debug/db — содержимое базы для демонстрации
   if (method === 'GET' && pathname === '/api/debug/db') {
     const data = load();
