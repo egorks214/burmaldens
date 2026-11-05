@@ -282,7 +282,10 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/') pathname = '/index.html';
-    const filePath = path.join(PUBLIC, pathname);
+    // На Linux path.join('/public', '/index.html') = '/index.html' — ломает путь.
+    // Убираем ведущий слэш и склеиваем безопасно.
+    const relative = pathname.replace(/^\/+/, '');
+    const filePath = path.normalize(path.join(PUBLIC, relative));
 
     // защита от path traversal
     if (!filePath.startsWith(PUBLIC)) {
