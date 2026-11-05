@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>БУРМАЛДЭНС — Парфюмерия и косметика</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">Б</div>
+        БУРМАЛ<span>ДЭНС</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="active">Главная</a>
+        <a href="#novelties-sec">Новинки</a>
+        <a href="#news-sec">Новости</a>
+        <a href="login.html" class="btn btn-gold btn-sm">Вход для Представителей</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Красота, которая<br><span>вдохновляет</span></h1>
+        <p>Парфюмерия, уход за телом и декоративная косметика. Привлекательные условия для Представителей по всей России.</p>
+        <div class="hero-actions">
+          <a href="login.html" class="btn btn-gold">Войти в кабинет</a>
+          <a href="#novelties-sec" class="btn btn-outline">Смотреть новинки</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="stat">250+</div>
+        <div class="label">городов присутствия</div>
+        <div style="height:20px"></div>
+        <div class="stat">15 000+</div>
+        <div class="label">активных Представителей</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="novelties-sec">
+    <h2 class="section-title">Новинки каталога</h2>
+    <p class="section-subtitle">Самые свежие позиции — уже доступны для заказа</p>
+    <div class="grid grid-4" id="novelties"></div>
+  </section>
+
+  <section class="section" id="news-sec" style="padding-top:0">
+    <h2 class="section-title">Новости компании</h2>
+    <p class="section-subtitle">Актуальные события и обновления</p>
+    <div id="news-list"></div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div style="background:var(--white);border-radius:20px;padding:40px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+      <div>
+        <h2 class="section-title" style="margin-bottom:16px">О компании</h2>
+        <p style="color:var(--text-muted);margin-bottom:16px">
+          Торговая компания <strong>БУРМАЛДЭНС</strong> осуществляет распространение парфюмерии, средств по уходу за телом и декоративной косметики через сеть представительств в различных городах России.
+        </p>
+        <p style="color:var(--text-muted);margin-bottom:20px">
+          Мы стремимся создавать наиболее привлекательные условия работы для своих Представителей и предоставляем удобный интернет-кабинет для размещения заказов.
+        </p>
+        <a href="register.html" class="btn btn-primary">Стать Представителем</a>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--slate),var(--navy));border-radius:16px;height:220px;display:flex;align-items:center;justify-content:center;font-size:5rem;color:rgba(255,255,255,0.6)">
+        💎
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <a href="index.html" class="logo" style="margin-bottom:16px;display:inline-flex">
+          <div class="logo-mark">Б</div>
+          БУРМАЛ<span>ДЭНС</span>
+        </a>
+        <p style="font-size:0.9rem;max-width:280px">Парфюмерия и косметика премиального качества. Работаем по всей России.</p>
+      </div>
+      <div>
+        <h4>Разделы</h4>
+        <a href="index.html">Главная</a>
+        <a href="#novelties-sec">Новинки</a>
+        <a href="#news-sec">Новости</a>
+      </div>
+      <div>
+        <h4>Представителям</h4>
+        <a href="login.html">Вход</a>
+        <a href="register.html">Регистрация</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 БУРМАЛДЭНС. Все права защищены. Сайт работает локально.
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

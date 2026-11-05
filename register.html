@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация — БУРМАЛДЭНС</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">Б</div>
+        БУРМАЛ<span>ДЭНС</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="login.html" class="btn btn-outline btn-sm">Войти</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="auth-page">
+    <div class="auth-card" style="max-width:480px">
+      <h1>Регистрация Представителя</h1>
+      <p class="subtitle">Заполните форму, чтобы получить доступ к кабинету</p>
+
+      <div class="auth-error" id="reg-error"></div>
+      <div class="auth-success" id="reg-success"></div>
+
+      <form id="reg-form">
+        <div class="form-group">
+          <label for="reg-num">Компьютерный номер *</label>
+          <input type="text" id="reg-num" placeholder="R123456" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reg-pass">Пароль *</label>
+            <input type="password" id="reg-pass" placeholder="мин. 4 символа" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-pass2">Повтор пароля *</label>
+            <input type="password" id="reg-pass2" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="reg-name">ФИО *</label>
+          <input type="text" id="reg-name" placeholder="Иванова Анна Сергеевна" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reg-city">Город *</label>
+            <input type="text" id="reg-city" placeholder="Москва" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-phone">Телефон</label>
+            <input type="tel" id="reg-phone" placeholder="+7 (999) 000-00-00">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" placeholder="name@example.com">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Зарегистрироваться</button>
+      </form>
+
+      <div class="auth-footer">
+        Уже есть аккаунт? <a href="login.html">Войти</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

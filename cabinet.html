@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет — БУРМАЛДЭНС</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="cabinet-page">
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">Б</div>
+        БУРМАЛ<span>ДЭНС</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">На сайт</a>
+        <button class="btn btn-outline btn-sm" onclick="logout()">Выйти</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="cabinet-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-user">
+        <div class="name" id="side-name">—</div>
+        <div class="id" id="side-id">—</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" data-sec="home" class="active" onclick="switchSection('home');return false;">
+          <span class="icon">🏠</span> Главная
+        </a>
+        <a href="#" data-sec="order" onclick="switchSection('order');return false;">
+          <span class="icon">🛒</span> Разместить заказ
+        </a>
+        <a href="#" data-sec="history" onclick="switchSection('history');return false;">
+          <span class="icon">📋</span> История заказов
+        </a>
+        <a href="#" data-sec="profile" onclick="switchSection('profile');return false;">
+          <span class="icon">👤</span> Персональные данные
+        </a>
+        <a href="#" data-sec="balance" onclick="switchSection('balance');return false;">
+          <span class="icon">💳</span> Баланс и операции
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Content -->
+    <main class="cabinet-content">
+      <div class="cabinet-header">
+        <h1 id="cabinet-title">Главная</h1>
+      </div>
+
+      <!-- HOME -->
+      <div class="section-panel active" id="sec-home">
+        <div class="balance-card">
+          <div>
+            <div class="label">Текущий баланс счёта</div>
+            <div class="amount" id="bal-amount">0 ₽</div>
+          </div>
+          <button class="btn btn-gold" onclick="switchSection('order')">Оформить заказ</button>
+        </div>
+
+        <h3 style="margin-bottom:16px;color:var(--plum)">Быстрые действия</h3>
+        <div class="grid grid-3" style="margin-bottom:32px">
+          <div class="card" style="cursor:pointer" onclick="switchSection('order')">
+            <div class="card-body" style="text-align:center;padding:28px">
+              <div style="font-size:2rem;margin-bottom:8px">🛒</div>
+              <h3>Новый заказ</h3>
+              <p>Выбрать товары из каталога</p>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="switchSection('history')">
+            <div class="card-body" style="text-align:center;padding:28px">
+              <div style="font-size:2rem;margin-bottom:8px">📋</div>
+              <h3>История</h3>
+              <p>Заказы за 6 месяцев</p>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="switchSection('balance')">
+            <div class="card-body" style="text-align:center;padding:28px">
+              <div style="font-size:2rem;margin-bottom:8px">💳</div>
+              <h3>Операции</h3>
+              <p>Движения по счёту</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-bottom:16px;color:var(--plum)">Последние новости</h3>
+        <div id="news-list"></div>
+      </div>
+
+      <!-- ORDER -->
+      <div class="section-panel" id="sec-order">
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start">
+          <div>
+            <p class="section-subtitle" style="margin-bottom:20px">Выберите товары и добавьте в корзину</p>
+            <div class="grid grid-3" id="order-products"></div>
+          </div>
+          <div class="cart-panel">
+            <h3 style="margin-bottom:16px;color:var(--plum)">Корзина</h3>
+            <div id="cart-items">
+              <p style="color:var(--text-muted);font-size:0.9rem">Корзина пуста</p>
+            </div>
+            <div class="cart-total">
+              <span>Итого:</span>
+              <span id="cart-total">0 ₽</span>
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="placeOrder()">Оформить заказ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORY -->
+      <div class="section-panel" id="sec-history">
+        <p class="section-subtitle">Заказы за последние 6 месяцев</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Номер</th>
+                <th>Дата</th>
+                <th>Позиций</th>
+                <th>Сумма</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody id="history-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="section-panel" id="sec-profile">
+        <p class="section-subtitle">Просмотр и изменение персональных данных</p>
+        <div class="auth-success" id="prof-success">Данные успешно сохранены</div>
+        <form id="prof-form" style="max-width:520px;background:var(--white);padding:28px;border-radius:var(--radius);box-shadow:var(--shadow)">
+          <div class="form-group">
+            <label>Компьютерный номер</label>
+            <input type="text" id="prof-num" readonly style="background:var(--light);color:var(--text-muted)">
+          </div>
+          <div class="form-group">
+            <label for="prof-name">ФИО</label>
+            <input type="text" id="prof-name" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prof-city">Город</label>
+              <input type="text" id="prof-city" required>
+            </div>
+            <div class="form-group">
+              <label for="prof-phone">Телефон</label>
+              <input type="tel" id="prof-phone">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="prof-email">Email</label>
+            <input type="email" id="prof-email">
+          </div>
+          <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        </form>
+      </div>
+
+      <!-- BALANCE -->
+      <div class="section-panel" id="sec-balance">
+        <div class="balance-card" style="margin-bottom:28px">
+          <div>
+            <div class="label">Текущий баланс</div>
+            <div class="amount" id="bal-amount-2">—</div>
+          </div>
+        </div>
+        <p class="section-subtitle">История операций по счёту</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Тип</th>
+                <th>Описание</th>
+                <th>Сумма</th>
+              </tr>
+            </thead>
+            <tbody id="ops-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Sync second balance display
+    document.addEventListener('DOMContentLoaded', () => {
+      const u = getUser();
+      if (u) {
+        const el = document.getElementById('bal-amount-2');
+        if (el) el.textContent = u.balance.toLocaleString('ru-RU') + ' ₽';
+      }
+      // re-render news on home
+      renderNews('news-list', 3);
+    });
+  </script>
+</body>
+</html>

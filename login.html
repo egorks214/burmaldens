@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — БУРМАЛДЭНС</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">Б</div>
+        БУРМАЛ<span>ДЭНС</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="register.html" class="btn btn-outline btn-sm">Регистрация</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="auth-page">
+    <div class="auth-card">
+      <h1>Вход для Представителей</h1>
+      <p class="subtitle">Введите компьютерный номер и пароль</p>
+
+      <div class="auth-error" id="login-error"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-num">Компьютерный номер</label>
+          <input type="text" id="login-num" placeholder="R123456" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="login-pass">Пароль</label>
+          <input type="password" id="login-pass" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Войти</button>
+      </form>
+
+      <div class="auth-footer">
+        Первый раз на сайте? <a href="register.html">Зарегистрироваться</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
